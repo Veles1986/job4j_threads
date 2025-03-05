@@ -12,7 +12,7 @@ public class Wget {
                             e.printStackTrace();
                         }
                     }
-                    System.out.println("\nLoading completed");
+                    System.out.println("\nLoading is completed");
                 }
         );
         thread.start();
