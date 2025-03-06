@@ -22,6 +22,6 @@ public class ConsoleProgress implements Runnable {
         progress.start();
         Thread.sleep(5000);
         progress.interrupt();
-        System.out.println("\nЗагрузка завершена!");
+        System.out.println(System.lineSeparator() + "Загрузка завершена!");
     }
 }

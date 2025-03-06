@@ -13,8 +13,8 @@ public class ThreadState {
         while (first.getState() != Thread.State.TERMINATED
                 || second.getState() != Thread.State.TERMINATED) {
             System.out.println(first.getName() + " : " + first.getState()
-                    + "\n" + second.getName() + " : " + second.getState()
-                    + "\n----------------------");
+                    + System.lineSeparator() + second.getName() + " : " + second.getState()
+                    + System.lineSeparator() + "----------------------");
         }
         System.out.println(Thread.currentThread().getName() + " Completed");
     }
