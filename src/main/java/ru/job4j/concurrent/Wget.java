@@ -37,6 +37,7 @@ public class Wget implements Runnable {
                         }
                     }
                     downloadAt = System.currentTimeMillis();
+                    sumBytes = 0;
                 }
                 output.write(dataBuffer, 0, bytesRead);
                 System.out.println("Read " + bytesRead + " bytes");
