@@ -12,21 +12,11 @@ public class AccountStorage {
     private final HashMap<Integer, Account> accounts = new HashMap<>();
 
     public synchronized boolean add(Account account) {
-        if (!accounts.containsKey(account.id())) {
-            accounts.put(account.id(), account);
-            return true;
-        } else {
-            return false;
-        }
+        return accounts.putIfAbsent(account.id(), account) == null;
     }
 
     public synchronized boolean update(Account account) {
-        if (accounts.containsKey(account.id())) {
-            accounts.put(account.id(), account);
-            return true;
-        } else {
-            return false;
-        }
+        return accounts.replace(account.id(), account) != null;
     }
 
     public synchronized void delete(int id) {
@@ -34,24 +24,18 @@ public class AccountStorage {
     }
 
     public synchronized Optional<Account> getById(int id) {
-        if (accounts.containsKey(id)) {
-            return Optional.of(accounts.get(id));
-        } else {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(accounts.get(id));
     }
 
     public synchronized boolean transfer(int fromId, int toId, int amount) {
-        if (accounts.containsKey(fromId) && accounts.containsKey(toId)) {
-            Account accountFrom = accounts.get(fromId);
-            Account accountTo = accounts.get(toId);
-            if (accountFrom.amount() >= amount) {
-                accounts.replace(accountFrom.id(),
-                        new Account(accountFrom.id(), accountFrom.amount() - amount));
-                accounts.replace(accountTo.id(),
-                        new Account(accountTo.id(), accountTo.amount() + amount));
-                return true;
-            }
+        Account accountFrom = accounts.get(fromId);
+        Account accountTo = accounts.get(toId);
+        if (accountFrom.amount() >= amount) {
+            accounts.replace(accountFrom.id(),
+                    new Account(accountFrom.id(), accountFrom.amount() - amount));
+            accounts.replace(accountTo.id(),
+                    new Account(accountTo.id(), accountTo.amount() + amount));
+            return true;
         }
         return false;
     }
