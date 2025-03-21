@@ -44,13 +44,14 @@ class SimpleBlockingQueueTest {
     @Test
     void whenBlockingTestThenOk() throws InterruptedException {
         final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
-        final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
+        final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(2);
         Thread producer = new Thread(
                 () -> {
                     for (int i = 0; i < 20; i++) {
                         try {
                             queue.offer(i);
                         } catch (InterruptedException e) {
+                            e.printStackTrace();
                             Thread.currentThread().interrupt();
                         }
                     }
@@ -59,13 +60,16 @@ class SimpleBlockingQueueTest {
         producer.start();
         Thread consumer = new Thread(
                 () -> {
-                    while (!queue.isEmpty() || !Thread.currentThread().isInterrupted()) {
-                        try {
-                            buffer.add(queue.poll());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            Thread.currentThread().interrupt();
+                    try {
+                        while (true) {
+                            Integer value = queue.poll();
+                            if (value == null) {
+                                break; // Выход из цикла, если очередь пуста и больше не будет новых данных
+                            }
+                            buffer.add(value);
                         }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                     }
                 }
         );
