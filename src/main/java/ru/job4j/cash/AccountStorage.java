@@ -30,12 +30,14 @@ public class AccountStorage {
     public synchronized boolean transfer(int fromId, int toId, int amount) {
         Account accountFrom = accounts.get(fromId);
         Account accountTo = accounts.get(toId);
-        if (accountFrom.amount() >= amount) {
-            accounts.replace(accountFrom.id(),
-                    new Account(accountFrom.id(), accountFrom.amount() - amount));
-            accounts.replace(accountTo.id(),
-                    new Account(accountTo.id(), accountTo.amount() + amount));
-            return true;
+        if (accountFrom != null && accountTo != null) {
+            if (accountFrom.amount() >= amount) {
+                accounts.replace(accountFrom.id(),
+                        new Account(accountFrom.id(), accountFrom.amount() - amount));
+                accounts.replace(accountTo.id(),
+                        new Account(accountTo.id(), accountTo.amount() + amount));
+                return true;
+            }
         }
         return false;
     }
