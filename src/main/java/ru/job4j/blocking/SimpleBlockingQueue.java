@@ -18,11 +18,10 @@ public class SimpleBlockingQueue<T> {
     }
 
     public SimpleBlockingQueue(int size) {
-        if (size > 0) {
-            this.size = size;
-        } else {
+        if (size < 0) {
             throw new IllegalArgumentException("Size must be bigger than 0");
         }
+        this.size = size;
     }
 
     public void offer(T value) throws InterruptedException {
