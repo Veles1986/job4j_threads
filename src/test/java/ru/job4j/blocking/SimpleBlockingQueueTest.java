@@ -64,7 +64,7 @@ class SimpleBlockingQueueTest {
                         while (true) {
                             Integer value = queue.poll();
                             if (value == null) {
-                                break; // Выход из цикла, если очередь пуста и больше не будет новых данных
+                                break;
                             }
                             buffer.add(value);
                         }
