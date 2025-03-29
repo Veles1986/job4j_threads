@@ -2,11 +2,11 @@ package ru.job4j.pool;
 
 public class MergeSort {
 
-    public int[] sort(int[] array) {
+    public static int[] sort(int[] array) {
         return sort(array, 0, array.length - 1);
     }
 
-    private int[] sort(int[] array, int from, int to) {
+    private static int[] sort(int[] array, int from, int to) {
         if (from >= to) {
             return new int[] {array[from]};
         }
@@ -17,7 +17,7 @@ public class MergeSort {
         );
     }
 
-    private int[] merge(int[] left, int[] right) {
+    public static int[] merge(int[] left, int[] right) {
         int leftIndex = 0;
         int rightIndex = 0;
         int resultIndex = 0;
