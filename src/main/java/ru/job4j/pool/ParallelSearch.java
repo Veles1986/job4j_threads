@@ -31,8 +31,9 @@ public class ParallelSearch<T> extends RecursiveTask<Integer> {
         ParallelSearch<T> leftSearch = new ParallelSearch<>(list, target, start, middle);
         ParallelSearch<T> rightSearch = new ParallelSearch<>(list, target, middle, end);
         leftSearch.fork();
-        int rightResult = rightSearch.compute();
+        rightSearch.fork();
         int leftResult = leftSearch.join();
+        int rightResult = rightSearch.join();
         return leftResult != -1 ? leftResult : rightResult;
     }
 
